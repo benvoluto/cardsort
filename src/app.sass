@@ -1,0 +1,57 @@
+.app
+  text-align: center
+
+  &.overlay
+    padding: 2em
+
+@media (prefers-reduced-motion: no-preference)
+  .app-logo
+    animation: App-logo-spin infinite 20s linear
+
+.app-header
+  background-color: #282c34
+  min-height: 100vh
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  font-size: calc(10px + 2vmin)
+  color: white
+
+.expand
+  height: auto
+
+.instructions
+  padding: 2em
+  font-size: 1.5em
+
+.close
+  position: absolute
+  z-index: 2
+  width: 2em
+  height: 2em
+  top: 2em
+  right: 2em
+  display: none
+
+  &.show
+    display: inline-block
+
+.shown
+  display: block
+
+.hidden
+  display: none
+
+.add-form
+  padding: 2em
+
+.one
+  .groups, .send
+    display: none
+
+.two
+  .groups
+    display: block
+  .send
+    display: none
