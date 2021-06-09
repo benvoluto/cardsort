@@ -155,7 +155,7 @@ const App = (props) => {
               <button name={index} onClick={handleShowRemove}>
                 Remove
               </button>
-              <select name={index} onChange={handleCategoryChange}>
+              <select name={index} className="group-picker" onChange={handleCategoryChange}>
                 {categories.map((category, key) => (
                   <option key={key} value={key}>
                     {category.name}
@@ -200,7 +200,7 @@ const App = (props) => {
       </div>
 
       <div className="send">
-        <button className="button hidden" onClick={() => handleData()}>Send Survey</button>
+        <button className="button" onClick={() => handleData()}>Send Survey</button>
       </div>
     </div>
   );
