@@ -146,39 +146,45 @@ const App = (props) => {
 
       <div>
         <h3>Shows</h3>
-        {shows.map((show, index) => {
-          const number = index + 1;
-          return (
-            <div key={index}>
-              <span>{number}. </span>
-              <span>{show.title}</span>
-              <button name={index} onClick={handleShowRemove}>
-                Remove
-              </button>
-              <select name={index} className="group-picker" onChange={handleCategoryChange}>
-                {categories.map((category, key) => (
-                  <option key={key} value={key}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          );
-        })}
-        <form onSubmit={handleAddSubmit} className="add-form">
-          <input
-            type="text"
-            id="new-show"
-            className="showInput"
-            name="text"
-            autoComplete="off"
-            value={show}
-            onChange={handleAddShow}
-          />
-          <button type="submit" className="button">
-            Add show
-          </button>
-        </form>
+        <div className="cards">
+          {shows.map((show, index) => {
+            const number = index + 1;
+            return (
+              <div key={index} className="card">
+          
+                <span className="card-text">
+                <span>{number}. </span>
+                <span>{show.title}</span>
+                </span>
+                <button name={index} className="close-button" onClick={handleShowRemove}>
+                  x
+                </button>
+              
+                <select name={index} className="group-picker hidden" onChange={handleCategoryChange}>
+                  {categories.map((category, key) => (
+                    <option key={key} value={key}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            );
+          })}
+          </div>
+          <form onSubmit={handleAddSubmit} className="add-form">
+            <input
+              type="text"
+              id="new-show"
+              className="showInput"
+              name="text"
+              autoComplete="off"
+              value={show}
+              onChange={handleAddShow}
+            />
+            <button type="submit" className="button">
+              Add show
+            </button>
+          </form>
       </div>
 
       <div className="groups">
