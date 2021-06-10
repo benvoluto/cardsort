@@ -46,7 +46,7 @@ const generateUUID = () => {
 const UUID = generateUUID();
 const CATS = [
   {
-    name: 'please pick a category',
+    name: 'please pick a group',
     id: 0,
   },
 ];
@@ -65,6 +65,7 @@ const App = (props) => {
 
   const handleCategoryInputChange = (e) => {
     setCategory(e.target.value);
+    stepCheck();
   };
 
   const handleCategoryChange = (e) => {
@@ -72,9 +73,9 @@ const App = (props) => {
     const theCategoryValue = e.target.value;
     const updatedShows = shows;
     updatedShows[theShowIndex].category = theCategoryValue;
-    console.log(updatedShows);
     setShows(updatedShows);
     forceUpdate();
+    stepCheck();
   };
 
   // https://reactjs.org/docs/hooks-faq.html#is-there-something-like-forceupdate
@@ -104,6 +105,7 @@ const App = (props) => {
       setCategories((categories) => [...categories, theCategory]);
       setCategory('');
     }
+    stepCheck();
   };
 
   const handleShowRemove = (e) => {
@@ -112,6 +114,7 @@ const App = (props) => {
     updatedShows.splice(index, 1);
     setShows(updatedShows);
     forceUpdate();
+    stepCheck();
   };
 
   const handleData = () => {
@@ -140,27 +143,24 @@ const App = (props) => {
 
   return (
     <div className={`app ${step}`}>
-
-      <div className="instructions">Please enter 15 or more of your favorite shows, and put them in 2 or more groups.</div>
-      <div>User id {UUID}</div>
+      <div className="hidden">User id {UUID}</div>
+      <div className="instructions-one">Please enter 15 or more of your favorite shows.</div>
+      <div className="instructions-two">Now make make 2 or more groups to put them into.</div>
+      <div className="instructions-three">Okay, you can make some final tweaks or send your survey whenever you're done. Thanks!</div>
 
       <div>
-        <h3>Shows</h3>
         <div className="cards">
           {shows.map((show, index) => {
-            const number = index + 1;
             return (
               <div key={index} className="card">
           
-                <span className="card-text">
-                <span>{number}. </span>
+              <div className="card-text">
                 <span>{show.title}</span>
-                </span>
                 <button name={index} className="close-button" onClick={handleShowRemove}>
-                  x
+                  &times;
                 </button>
               
-                <select name={index} className="group-picker hidden" onChange={handleCategoryChange}>
+                <select name={index} className="group-picker" onChange={handleCategoryChange}>
                   {categories.map((category, key) => (
                     <option key={key} value={key}>
                       {category.name}
@@ -168,9 +168,10 @@ const App = (props) => {
                   ))}
                 </select>
               </div>
+            </div>
             );
           })}
-          </div>
+
           <form onSubmit={handleAddSubmit} className="add-form">
             <input
               type="text"
@@ -180,11 +181,14 @@ const App = (props) => {
               autoComplete="off"
               value={show}
               onChange={handleAddShow}
+              placeholder="show title"
             />
-            <button type="submit" className="button">
+            <button type="submit" className="button add-show">
               Add show
             </button>
           </form>
+          
+          </div>
       </div>
 
       <div className="groups">
