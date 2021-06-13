@@ -131,7 +131,6 @@ const App = () => {
       const validation = groups.every(card => {
         return card.status !== 0;
       });
-      console.log('groups valid?', validation)
       if (validation) {
         setStep('three');
       }
