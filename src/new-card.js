@@ -10,7 +10,7 @@ const NewCard = ({group, newCard, handleNewCard, handleNewCardSubmit}) => (group
       autoComplete="off"
       value={newCard}
       onChange={handleNewCard}
-      placeholder="show title"
+      placeholder="title"
     />
     <button type="submit" className="button add-card">
       Add card
