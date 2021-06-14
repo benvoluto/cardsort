@@ -3,7 +3,6 @@ import { initializeApp, getApps } from 'firebase/app';
 import { getDatabase, ref, push, set } from 'firebase/database';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import update from 'immutability-helper';
 import generateUUID from './uuid';
 import NewGroupName from './new';
 import Group from './group';
@@ -18,8 +17,6 @@ if (!getApps().length) {
 
 // approach heavily informed by this example
 // https://medium.com/@RethnaGanesh/developing-a-kanban-board-using-react-dnd-and-react-hooks-1cae2e11ea99
-// and
-// https://github.com/kolodny/immutability-helper
 // and 
 // https://mariosfakiolas.com/blog/use-useref-hook-to-store-values-you-want-to-keep-an-eye-on/
 
@@ -62,16 +59,15 @@ const App = () => {
   }, [cards, groups, step]);
 
   const changeCardGroup = useCallback((id, status) => {
-      let card = cards.find((card) => card.cardId === id);
-      const prevCard = card;
-      const cardIndex = cards.indexOf(card);
+      let cardToUpdate = cards.find((card) => card.cardId === id);
+      const prevCard = cardToUpdate;
+      const cardIndex = cards.indexOf(cardToUpdate);
       if (status === prevCard.status) {
         return true;
       } else {
-        card = { ...card, status };
-        let newCards = update(cards, {
-          [cardIndex]: { $set: card },
-        });
+        let newCards = [...cards];
+        cardToUpdate = { ...cardToUpdate, status };
+        newCards[cardIndex] = cardToUpdate;
         setCardStatus(newCards);
       }
     },
@@ -116,13 +112,12 @@ const App = () => {
     (e) => {
       e.preventDefault();
       const theId = e.target.getAttribute('name');
-      let theGroup = groups.find((group) => group.id === parseInt(theId));
-      const groupIndex = groups.indexOf(theGroup);
-      const theNewName = newGroupName ? newGroupName : theGroup.name;
-      const newGroup = { ...theGroup, name: theNewName };
-      let newGroups = update(groups, {
-        [groupIndex]: { $set: newGroup },
-      });
+      let theGroupToUpdate = groups.find((group) => group.id === parseInt(theId));
+      const groupIndex = groups.indexOf(theGroupToUpdate);
+      const theNewName = newGroupName ? newGroupName : theGroupToUpdate.name;
+      const newGroup = { ...theGroupToUpdate, name: theNewName };
+      let newGroups = [...groups];
+      newGroups[groupIndex] = newGroup;
       setGroups(newGroups);
       setNewGroupName('');
       setEditGroupId(null);
@@ -142,9 +137,10 @@ const App = () => {
 
   const handleCardRemove = useCallback((e) => {
     const theCardId = e.target.getAttribute('name');
-    let theCard = cards.find((card) => card.cardId === parseInt(theCardId));
-    const cardIndex = cards.indexOf(theCard);
-    let newCards = update(cards, { $splice: [[cardIndex, 1]] });
+    let theCardToRemove = cards.find((card) => card.cardId === parseInt(theCardId));
+    const cardIndex = cards.indexOf(theCardToRemove);
+    let newCards = [...cards];
+    newCards.splice(cardIndex, 1);
     setCardStatus(newCards);
   }, [cards]);
 
