@@ -1,121 +1,44 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
-import update from 'immutability-helper';
 import { initializeApp, getApps } from 'firebase/app';
 import { getDatabase, ref, push, set } from 'firebase/database';
+import { DndProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+import update from 'immutability-helper';
+import generateUUID from './uuid';
+import NewGroupName from './new';
+import Group from './group';
+import Card from './card';
+import config from './config';
+import { CATS, INSTRUCTIONS } from './constants';
 import './app.sass';
 
-const config = {
-  apiKey: 'AIzaSyBNNtCxgk-__SYzCLVwgioXmbYHUmYGX9k',
-  authDomain: 'surveys-24eb8.firebaseapp.com',
-  databaseURL: 'https://surveys-24eb8-default-rtdb.firebaseio.com',
-  projectId: 'surveys-24eb8',
-  storageBucket: 'surveys-24eb8.appspot.com',
-  messagingSenderId: '42159276532',
-  appId: '1:42159276532:web:98303b378b3b91269839a1',
-  measurementId: 'G-TWH298STVC',
-};
 if (!getApps().length) {
   initializeApp(config);
-}
-
-/* eslint-disable no-mixed-operators */
-// https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
-const generateUUID = () => {
-  let d = new Date().getTime(),
-    d2 = (performance && performance.now && performance.now() * 1000) || 0;
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    let r = Math.random() * 16;
-    if (d > 0) {
-      r = (d + r) % 16 | 0;
-      d = Math.floor(d / 16);
-    } else {
-      r = (d2 + r) % 16 | 0;
-      d2 = Math.floor(d2 / 16);
-    }
-    return (c === 'x' ? r : (r & 0x7) | 0x8).toString(16);
-  });
 };
 
 // approach heavily informed by this example
 // https://medium.com/@RethnaGanesh/developing-a-kanban-board-using-react-dnd-and-react-hooks-1cae2e11ea99
-const Group = ({ status, changeCardGroup, children }) => {
-  const ref = useRef(null);
-  const [, drop] = useDrop({
-    accept: 'card',
-    drop(item) {
-      changeCardGroup(item.id, status);
-    },
-  });
-  drop(ref);
-  return <div className={`group ${status === 0 ? 'ungrouped' : ''}`} ref={ref}> {children}</div>;
-};
+// and
+// https://github.com/kolodny/immutability-helper
+// and 
+// https://mariosfakiolas.com/blog/use-useref-hook-to-store-values-you-want-to-keep-an-eye-on/
 
-const Card = ({ id, children }) => {
-  const ref = useRef(null);
-  const [{ isDragging }, drag] = useDrag({
-    item: { type: 'card', id },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-  const opacity = isDragging ? 0 : 1;
-  drag(ref);
-  return (
-    <div ref={ref} style={{ opacity }}>
-      {children}
-    </div>
-  );
-};
 
-const NewGroupName = ({ id, handleGroupNameSubmit, handleGroupName, newGroupName, oldGroupName }) => {
-  return (
-    <form onSubmit={handleGroupNameSubmit} name={id} className="group-form">
-      <input
-        type="text"
-        id="newGroupName"
-        autoFocus
-        className="group-name-input"
-        name={id}
-        autoComplete="off"
-        value={newGroupName}
-        onChange={handleGroupName}
-        placeholder={ (oldGroupName !== '') ? oldGroupName : "New Group name"}
-      />
-      <button className="group-name-save-button" type="submit">Ok</button>
-    </form>
-  )
-}
-
-const UUID = generateUUID();
-
-const cardsList = [];
-
-const CATS = [
-  {
-    name: '',
-    id: 0,
-  },
-  {
-    name: '',
-    id: 1,
-  },
-  {
-    name: '',
-    id: 2,
-  },
-];
+// if user is coming with an id from another survey use that
+const url_string = window.location.href;
+const url = new URL(url_string);
+const pid = url.searchParams.get('pid');
+const uuid = pid || generateUUID();
 
 const App = () => {
-  const [step, setStep] = useState('one');
+  const [step, setStep] = useState(1);
   const [newCard, setNewCard] = useState('');
   const [newGroupName, setNewGroupName] = useState('');
   const [editGroupId, setEditGroupId] = useState(null);
   const [newId, setNewId] = useState(0);
-  const [cards, setCardStatus] = useState(cardsList);
+  const [cards, setCardStatus] = useState([]);
   const [groups, setGroups] = useState(CATS);
-  // https://mariosfakiolas.com/blog/use-useref-hook-to-store-values-you-want-to-keep-an-eye-on/
+  const [error, setError] = useState(null);
   const data = useRef(null);
 
   useEffect(() => {
@@ -127,12 +50,12 @@ const App = () => {
   
   const stepCheck = useCallback(() => {
     if (cards.length > 12) {
-      setStep('two');
+      setStep(2);
       const validation = groups.every(card => {
         return card.status !== 0;
       });
       if (validation) {
-        setStep('three');
+        setStep(3);
       }
     };
     return step;
@@ -221,7 +144,6 @@ const App = () => {
     const theCardId = e.target.getAttribute('name');
     let theCard = cards.find((card) => card.cardId === parseInt(theCardId));
     const cardIndex = cards.indexOf(theCard);
-    // https://github.com/kolodny/immutability-helper
     let newCards = update(cards, { $splice: [[cardIndex, 1]] });
     setCardStatus(newCards);
   }, [cards]);
@@ -231,25 +153,24 @@ const App = () => {
     const db = getDatabase();
     const surveyListRef = ref(db, 'surveys');
     const newSurveyRef = push(surveyListRef);
-    set(newSurveyRef, {cards, groups, UUID})
+    set(newSurveyRef, {cards, groups, uuid})
     .then(() => {
-      console.log("mo bettah");
+      setStep(4);
     })
     .catch((error) => {
-      console.log("mo problems");
+      setError(error);
     });
   }
 
   return (
-    <main className={`app ${step}`}>
-      <div className="hidden">User id {UUID}</div>
-      <div className="instructions-one">Please enter 12 or more shows and movies that you have seen in the past year, as many as you can remember.</div>
-      <div className="instructions-two">Now, organize them into whatever groups make sense to you, and give each group a name.</div>
-      <div className="instructions-three">Okay, you can make some final tweaks or send your survey whenever you're done. Thanks!</div>
+    <main className={`app step-${step}`}>
+      <div className="hidden">User id { uuid }</div>
+      <div className="instructions">{ INSTRUCTIONS[step] ? INSTRUCTIONS[step].text : null }</div>
+
       <DndProvider backend={HTML5Backend}>
         <section className="groups">
           {groups.map((group) => {
-            const groupLabel = (group.name === '') ? 'Add a Name for this Group' : group.name;
+            const groupLabel = (group.name === '') ? 'Add a label for this group' : group.name;
             return (
               <Group
                 key={group.id}
@@ -300,8 +221,8 @@ const App = () => {
                           onChange={handleNewCard}
                           placeholder="show title"
                         />
-                        <button type="submit" className="button add-show">
-                          Add show
+                        <button type="submit" className="button add-card">
+                          Add card
                         </button>
                       </form>
                     ) : null
@@ -317,7 +238,11 @@ const App = () => {
         </section>
       </DndProvider>
       <div className="send">
-        <button className="button" onClick={() => handleData()}>Send Survey</button>
+        <button className="send-button" onClick={() => handleData()}>Send Survey</button>
+        { error ? <div className="error">{error}</div> : null}
+      </div>
+      <div className="sent">
+        <span className="sent-message">Thank you very much for helping out!</span>
       </div>
     </main>
   );
