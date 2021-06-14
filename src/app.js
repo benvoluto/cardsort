@@ -4,9 +4,11 @@ import { getDatabase, ref, push, set } from 'firebase/database';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import generateUUID from './uuid';
-import NewGroupName from './new';
+import GroupNameEdit from './group-name-edit';
 import Group from './group';
-import Card from './card';
+import Cards from './cards';
+import NewCard from './new-card';
+import Instructions from './instructions';
 import config from './config';
 import { CATS, INSTRUCTIONS } from './constants';
 import './app.sass';
@@ -46,7 +48,7 @@ const App = () => {
   },[cards, data]);
   
   const stepCheck = useCallback(() => {
-    if (cards.length > 12) {
+    if (cards.length > 10) {
       setStep(2);
       const validation = groups.every(card => {
         return card.status !== 0;
@@ -158,71 +160,42 @@ const App = () => {
     });
   }
 
+
+
   return (
     <main className={`app step-${step}`}>
       <div className="hidden">User id { uuid }</div>
-      <div className="instructions">{ INSTRUCTIONS[step] ? INSTRUCTIONS[step].text : null }</div>
+      <Instructions step={step} instructions={INSTRUCTIONS} />
 
       <DndProvider backend={HTML5Backend}>
         <section className="groups">
           {groups.map((group) => {
-            const groupLabel = (group.name === '') ? 'Add a label for this group' : group.name;
             return (
               <Group
                 key={group.id}
                 status={group.id}
                 changeCardGroup={changeCardGroup}
               >
-                { (group.id > 0) ? (
-                  <div className="group-add">
-                    {
-                      (editGroupId === group.id) ? (
-                        <NewGroupName 
-                          id={group.id}
-                          oldGroupName={group.name}
-                          handleGroupNameSubmit={handleGroupNameSubmit}
-                          handleGroupName={handleGroupName}
-                          newGroupName={newGroupName}
-                        /> ): (
-                          <button className="group-name-edit" name={group.id} onClick={clickGroupNameChange}>{groupLabel}</button>
-                        )
-                    }
-                  </div>
-                  ) : null 
-                }
+                <GroupNameEdit 
+                  group={group}
+                  editGroupId={editGroupId}
+                  handleGroupNameSubmit={handleGroupNameSubmit}
+                  handleGroupName={handleGroupName}
+                  clickGroupNameChange={clickGroupNameChange}
+                  newGroupName={newGroupName}
+                /> 
                 <div className="group-items">
-                  {cards
-                    .filter((cardItem) => cardItem.status === group.id)
-                    .map((cardItem) => (
-                      <Card key={cardItem.cardId} id={cardItem.cardId}>
-                        <div className="card">
-                          <button name={cardItem.cardId} className="close-button" onClick={handleCardRemove}>
-                          &times;
-                          </button>
-                          {cardItem.title}
-                        </div>
-                      </Card>
-                    ))
-                  }
-                  {
-                    (group.id === 0) ? (
-                      <form onSubmit={handleNewCardSubmit} className="add-form">
-                        <input
-                          type="text"
-                          id="new-show"
-                          className="showInput"
-                          name={group.id}
-                          autoComplete="off"
-                          value={newCard}
-                          onChange={handleNewCard}
-                          placeholder="show title"
-                        />
-                        <button type="submit" className="button add-card">
-                          Add card
-                        </button>
-                      </form>
-                    ) : null
-                  }
+                  <Cards 
+                    cards={cards}
+                    handleCardRemove={handleCardRemove} 
+                    group={group} 
+                  />
+                  <NewCard
+                    group={group}
+                    newCard={newCard}
+                    handleNewCard={handleNewCard}
+                    handleNewCardSubmit={handleNewCardSubmit} 
+                  />
                 </div>
               </Group>
             )
