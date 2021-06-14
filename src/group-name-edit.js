@@ -20,7 +20,7 @@ const GroupNameEdit = ({
         newGroupName={newGroupName}
       /> ): (
         <button className="group-name-edit" name={group.id} onClick={clickGroupNameChange}>
-          {(group.name === '') ? 'Add a label for this group' : group.name}
+          {(group.name === '') ? 'Name this group' : group.name}
         </button>
       )
   }

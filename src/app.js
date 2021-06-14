@@ -50,15 +50,13 @@ const App = () => {
   const stepCheck = useCallback(() => {
     if (cards.length > 10) {
       setStep(2);
-      const validation = groups.every(card => {
-        return card.status !== 0;
-      });
-      if (validation) {
+      const validation = cards.filter((card) => card.status !== 0).length;
+      if (validation > 3) {
         setStep(3);
       }
     };
     return step;
-  }, [cards, groups, step]);
+  }, [cards, step]);
 
   const changeCardGroup = useCallback((id, status) => {
       let cardToUpdate = cards.find((card) => card.cardId === id);
@@ -71,9 +69,10 @@ const App = () => {
         cardToUpdate = { ...cardToUpdate, status };
         newCards[cardIndex] = cardToUpdate;
         setCardStatus(newCards);
+        stepCheck();
       }
     },
-    [cards]
+    [cards, stepCheck]
   );
 
   const handleNewCard = (e) => {
