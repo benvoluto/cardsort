@@ -208,7 +208,7 @@ const App = () => {
         </section>
       </DndProvider>
       <div className="send">
-        <button className="send-button" onClick={() => handleData()}>Send Survey</button>
+        <button className="send-button" onClick={() => handleData()} disabled={step !== 3 || cards.some((card) => card.status === 0)}>Send Survey</button>
         { error ? <div className="error">{error}</div> : null}
       </div>
       <div className="sent">
