@@ -29,7 +29,7 @@ export const INSTRUCTIONS = [
   },
   {
     step: 3,
-    text: 'Okay, you can make some final tweaks or send your survey whenever you’re done. Thanks!'
+    text: 'Keep organizing until each card is in a group. When you are finished, you can hit "Done" at the bottom of the page. Thanks!'
   },
   {
     step: 4,
