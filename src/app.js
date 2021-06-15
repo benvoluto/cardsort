@@ -23,12 +23,6 @@ if (!getApps().length) {
 // https://mariosfakiolas.com/blog/use-useref-hook-to-store-values-you-want-to-keep-an-eye-on/
 
 
-// if user is coming with an id from another survey use that
-const url_string = window.location.href;
-const url = new URL(url_string);
-const pid = url.searchParams.get('pid');
-const uuid = pid || generateUUID();
-
 const App = () => {
   const [step, setStep] = useState(1);
   const [newCard, setNewCard] = useState('');
@@ -159,13 +153,16 @@ const App = () => {
     });
   }
 
-
+  // if user is coming with an id from another survey use that
+  const url_string = window.location.href;
+  const url = new URL(url_string);
+  const pid = url.searchParams.get('pid');
+  const uuid = pid || generateUUID();
 
   return (
     <main className={`app step-${step}`}>
-      <div className="hidden">User id { uuid }</div>
       <Instructions step={step} instructions={INSTRUCTIONS} />
-
+      <div className="uuid">User id { uuid }</div>
       <DndProvider backend={HTML5Backend}>
         <section className="groups">
           {groups.map((group) => {

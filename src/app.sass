@@ -1,3 +1,5 @@
+$mobile: 768px
+  
 *
   box-sizing: border-box
   
@@ -7,9 +9,11 @@
   &.overlay
     padding: 2em
 
-@media (prefers-reduced-motion: no-preference)
-  .app-logo
-    animation: App-logo-spin infinite 20s linear
+.uuid 
+  display: none
+  color: #999
+  font-size: .6em
+  padding: .5em
 
 .app-header
   background-color: #282c34
@@ -36,6 +40,12 @@
   background-color: #E4EDF6
   padding: .5em
   margin: .25em
+
+  @media screen and (max-width: $mobile)
+    font-size: .6em
+    height: 6em
+    width: 28vw
+    margin: .5em
 
   .showInput
     border-radius: .1em
@@ -79,6 +89,11 @@
   box-shadow: 0 0 .7em rgba(0,0,0,.3)
   cursor: move
 
+  @media screen and (max-width: $mobile)
+    font-size: .6em
+    height: 6em
+    width: 28vw
+
 .card-text  
   padding: 2em
   display: flex
@@ -95,6 +110,9 @@
   color: grey
   font-weight: bold
   cursor: pointer
+
+  @media screen and (max-width: $mobile)
+    font-size: 1.5em
 
   &:hover
     color: green
@@ -158,6 +176,7 @@
   cursor: pointer
 
   .add-group-plus
+    display: inline-block
     font-size: 7em
     color: white
 
@@ -165,6 +184,20 @@
     display: inline-block
     padding-bottom: 1em
     color: white
+
+  @media screen and (max-width: $mobile)
+    width: 100%
+    padding: 0
+    font-size: .6em
+    flex-direction: row
+    align-items: center
+    justify-content: center
+
+    .add-group-plus
+      display: none
+
+    .add-group-label
+      padding: 1em
 
 .group-picker
   display: inline-block
@@ -175,6 +208,9 @@
   align-items: flex-start
   flex-wrap: wrap
   padding: 2em
+
+  @media screen and (max-width: $mobile)
+    padding: 0
 
 .group
   display: flex
@@ -189,11 +225,23 @@
   border-radius: 1em
   border: 4px dashed #d8d8d8
 
+  @media screen and (max-width: $mobile)
+    margin: 0
+    width: 100vw
+    margin: .5em
+    font-size: .67em
+    min-height: 10em
+    border-width: 2px
+
   &.ungrouped
     display: flex
     width: 100vw
     border: none
     min-height: 10em
+
+    @media screen and (max-width: $mobile)
+      margin: 0
+      font-size: 1em
 
   .group-items
     display: flex
@@ -210,6 +258,9 @@
       border-radius: .5em
       box-shadow: 0 0 .4em rgba(0,0,0,.3)
 
+      @media screen and (max-width: $mobile)
+        font-size: .9em
+
 .instructions
   display: block
   padding: 1em
@@ -217,6 +268,11 @@
   border-radius: 1em
   font-size: 1.5em
   background-color: #eaeaeaef
+
+  @media screen and (max-width: $mobile)
+    margin: 0
+    border-radius: 0
+    font-size: .9em
 
 .close
   position: absolute
@@ -300,3 +356,13 @@
   padding: 0 1em
   border-radius: .5em
   margin: .5em auto
+  cursor: pointer
+
+  @media screen and (max-width: $mobile)
+    font-size: .8em
+    margin: 1em 0 0 0
+    width: 100%
+    height: 4.5em
+    border-radius: 0
+    padding: 1.5em
+
