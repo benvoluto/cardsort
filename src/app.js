@@ -22,6 +22,11 @@ if (!getApps().length) {
 // and 
 // https://mariosfakiolas.com/blog/use-useref-hook-to-store-values-you-want-to-keep-an-eye-on/
 
+// if user is coming with an id from another survey use that
+const url_string = window.location.href;
+const url = new URL(url_string);
+const pid = url.searchParams.get('pid');
+const uuid = pid || generateUUID();
 
 const App = () => {
   const [step, setStep] = useState(1);
@@ -152,12 +157,6 @@ const App = () => {
       setError(error);
     });
   }
-
-  // if user is coming with an id from another survey use that
-  const url_string = window.location.href;
-  const url = new URL(url_string);
-  const pid = url.searchParams.get('pid');
-  const uuid = pid || generateUUID();
 
   return (
     <main className={`app step-${step}`}>
