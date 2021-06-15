@@ -1,5 +1,4 @@
 import React from 'react';
-import { Checkmark } from 'react-checkmark';
 
 const NewGroupName = ({ id, handleGroupNameSubmit, handleGroupName, newGroupName, oldGroupName }) => {
   return (
