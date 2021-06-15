@@ -1,4 +1,5 @@
 import React from 'react';
+import { Checkmark } from 'react-checkmark';
 
 const NewGroupName = ({ id, handleGroupNameSubmit, handleGroupName, newGroupName, oldGroupName }) => {
   return (
@@ -12,7 +13,7 @@ const NewGroupName = ({ id, handleGroupNameSubmit, handleGroupName, newGroupName
         autoComplete="off"
         value={newGroupName}
         onChange={handleGroupName}
-        placeholder={ (oldGroupName !== '') ? oldGroupName : "New Group name"}
+        placeholder={ (oldGroupName !== '') ? oldGroupName : ''}
       />
       <button className="group-name-save-button" type="submit">Ok</button>
     </form>
