@@ -48,11 +48,13 @@ $mobile: 768px
     margin: .5em
 
   .showInput
-    border-radius: .1em
+    border-radius: .2em
     border-width: 0
     width: 100%
     font-size: 1em
-    padding: .2em
+    padding: .2em .4em
+    
+    font-family: Montserrat, sans-serif
 
   .add-card
     display: none
@@ -364,21 +366,22 @@ $mobile: 768px
   background-color: green
   border: 2px solid green
   color: white
-  width: 9em
-  height: 3em
+  width: 11em
+  height: 2.5em
   padding: 0 1em
-  border-radius: .5em
+  border-radius: 2.5em
   margin: .5em auto
-  cursor: pointer
 
   @media screen and (max-width: $mobile)
     font-size: .8em
-    margin: 1em 0 0 0
-    width: 100%
-    height: 4.5em
-    border-radius: 0
-    padding: 1.5em
+    width: 60%
+    height: 2.5em
+    border-radius: 4.5em
+    margin-top: 1em
 
 .send-button:disabled
-  background-color: #666666
+  border: none
+  background-color: #bdbdbd
+  color: #828282
+  cursor: default
 

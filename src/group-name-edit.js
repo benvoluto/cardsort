@@ -19,7 +19,7 @@ const GroupNameEdit = ({
         handleGroupName={handleGroupName}
         newGroupName={newGroupName}
       /> ): (
-        <button className="group-name-edit" style={{color: group.name === '' ? "#666666" : "#0e141a" }} name={group.id} onClick={clickGroupNameChange}>
+        <button className="group-name-edit" style={{color: group.name === '' ? "#666666" : "#0e141a"}} name={group.id} onClick={clickGroupNameChange}>
           {(group.name === '') ? 'Name this group' : group.name}
         </button>
       )
