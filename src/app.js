@@ -113,6 +113,12 @@ const App = () => {
       e.preventDefault();
       const theId = e.target.getAttribute('name');
       let theGroupToUpdate = groups.find((group) => group.id === parseInt(theId));
+      let existingGroup = groups.find((group) => group.name === newGroupName);
+      if (existingGroup) {
+        alert('You entered that group name already... please use a different name.'); 
+        setNewGroupName('');
+        return true;
+      }
       const groupIndex = groups.indexOf(theGroupToUpdate);
       const theNewName = newGroupName ? newGroupName : theGroupToUpdate.name;
       const newGroup = { ...theGroupToUpdate, name: theNewName };
