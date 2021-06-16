@@ -73,7 +73,6 @@ const App = () => {
     if (enoughCards && (validation <= 1) && (groupsNamed === 1)) {
       setStep(4);
     }
-    console.log("StepChecking", groupsNamed, groups.length)
     return step;
   }, [cards, groups, step]);
 
