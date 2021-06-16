@@ -9,6 +9,7 @@ const NewGroupName = ({ id, handleGroupNameSubmit, handleGroupName, newGroupName
         autoFocus
         className="group-name-input"
         name={id}
+        onBlur={handleGroupNameSubmit}
         autoComplete="off"
         value={newGroupName}
         onChange={handleGroupName}
