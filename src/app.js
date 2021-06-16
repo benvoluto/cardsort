@@ -4,34 +4,17 @@ import { getDatabase, ref, push, set } from 'firebase/database';
 import { DndProvider } from 'react-dnd';
 import { MultiBackend } from 'dnd-multi-backend';
 import { HTML5toTouch } from 'rdndmb-html5-to-touch';
-import { usePreview } from 'react-dnd-preview';
 import generateUUID from './uuid';
 import GroupNameEdit from './group-name-edit';
 import Group from './group';
 import Cards from './cards';
 import NewCard from './new-card';
+import TouchPreview from './touch-preview';
 import Instructions from './instructions';
 import { isTouch } from './config'
 import config from './config';
 import { CATS, INSTRUCTIONS } from './constants';
 import './app.sass';
-
-const TouchPreview = ({cards}) => {
-  // disabling since the dnd lib needs an item in this scope
-  // eslint-disable-next-line no-unused-vars
-  const {display, item, style} = usePreview();
-  if (item) {
-    let existingCard = cards.find((card) => card.cardId === item.id);
-    if (!display || !isTouch) {
-      return null;
-    }
-    return <div className="preview" style={style}>{existingCard.title}</div>;
-  } else {
-    return null;
-  }
-};
-
-const touch = isTouch() ? 'touch-capable' : '';
 
 
 if (!getApps().length) {
@@ -48,6 +31,8 @@ const url_string = window.location.href;
 const url = new URL(url_string);
 const pid = url.searchParams.get('pid');
 const uuid = pid || generateUUID();
+
+const touch = isTouch() ? 'touch-capable' : '';
 
 const App = () => {
   const [step, setStep] = useState(1);
