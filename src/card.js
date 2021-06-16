@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useDrag } from 'react-dnd';
 
-const Card = ({ id, text, children }) => {
+const Card = ({ id, children }) => {
   const ref = useRef(null);
   const [{ isDragging }, drag] = useDrag({
     item: { type: 'card', id },
