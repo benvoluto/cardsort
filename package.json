@@ -10,10 +10,12 @@
     "@testing-library/user-event": "^12.1.10",
     "firebase": "9.0.0-beta.2",
     "node-sass": "^6.0.0",
+    "rdndmb-html5-to-touch": "^7.0.0-alpha.1",
     "react": "16.11.0",
     "react-checkmark": "^1.4.0",
     "react-dnd": "9.4.0",
     "react-dnd-html5-backend": "9.4.0",
+    "react-dnd-multi-backend": "^6.0.2",
     "react-dom": "16.11.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.0.1"
