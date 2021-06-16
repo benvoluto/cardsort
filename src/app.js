@@ -37,14 +37,19 @@ const App = () => {
   const [cards, setCardStatus] = useState([]);
   const [groups, setGroups] = useState(CATS);
   const [error, setError] = useState(null);
-  const data = useRef(null);
+  const cardData = useRef(null);
+  const groupData = useRef(null);
 
   useEffect(() => {
-    const prevData = data.current;
-    if (cards !== prevData) {
-      data.current = cards;
+    const prevCardData = cardData.current;
+    const prevGroupData = groupData.current;
+    if (cards !== prevCardData) {
+      cardData.current = cards;
     }
-  },[cards, data]);
+    if (groups !== prevGroupData) {
+      groupData.current = groups;
+    }
+  },[cards, cardData, groups, groupData]);
   
   const stepCheck = useCallback(() => {
     if (cards.length > 10) {
