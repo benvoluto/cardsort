@@ -5,7 +5,7 @@ const Cards = ({cards, group, handleCardRemove}) => {
   return (cards) ? cards
     .filter((cardItem) => cardItem.status === group.id)
     .map((cardItem) => (
-      <Card key={cardItem.cardId} text={cardItem.title} id={cardItem.cardId}>
+      <Card key={cardItem.cardId} text={cardItem} id={cardItem.cardId}>
         <div className="card">
           <button name={cardItem.cardId} className="close-button" onClick={handleCardRemove}>
           &times;

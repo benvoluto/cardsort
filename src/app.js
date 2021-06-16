@@ -1,18 +1,33 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { initializeApp, getApps } from 'firebase/app';
 import { getDatabase, ref, push, set } from 'firebase/database';
-import { DndProvider } from 'react-dnd'
-import { MultiBackend } from 'dnd-multi-backend'
-import { HTML5toTouch } from 'rdndmb-html5-to-touch'
+import { DndProvider } from 'react-dnd';
+import { MultiBackend } from 'dnd-multi-backend';
+import { HTML5toTouch } from 'rdndmb-html5-to-touch';
+import { usePreview } from 'react-dnd-preview';
 import generateUUID from './uuid';
 import GroupNameEdit from './group-name-edit';
 import Group from './group';
 import Cards from './cards';
 import NewCard from './new-card';
 import Instructions from './instructions';
+import { isTouch } from './config'
 import config from './config';
 import { CATS, INSTRUCTIONS } from './constants';
 import './app.sass';
+
+const TouchPreview = ({text}) => {
+  // disabling since the dnd lib needs an item in this scope
+  // eslint-disable-next-line no-unused-vars
+  const {display, item, style} = usePreview();
+  if (!display || !isTouch) {
+    return null;
+  }
+  return <div className="preview" style={style}></div>;
+};
+
+const touch = isTouch() ? 'touch-capable' : '';
+
 
 if (!getApps().length) {
   initializeApp(config);
@@ -171,7 +186,7 @@ const App = () => {
   }
 
   return (
-    <main className={`app step-${step}`}>
+    <main className={`app step-${step} ${touch}`}>
       <Instructions step={step} instructions={INSTRUCTIONS} />
       <div className="uuid">User id { uuid }</div>
       <DndProvider backend={MultiBackend} options={HTML5toTouch}>
@@ -197,6 +212,7 @@ const App = () => {
                     handleCardRemove={handleCardRemove} 
                     group={group} 
                   />
+                  <TouchPreview />
                   <NewCard
                     group={group}
                     newCard={newCard}
