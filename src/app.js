@@ -58,15 +58,24 @@ const App = () => {
   },[cards, cardData, groups, groupData]);
   
   const stepCheck = useCallback(() => {
-    if (cards.length > 10) {
+    const validation = cards.filter((card) => card.status === 0).length;
+    const groupsNamed = groups.filter((group) => group.name !== '').length;
+    const enoughCards = (cards.length > 10);
+
+    if (enoughCards && (validation > 1) && (groupsNamed !== (groups.length - 1))) {
       setStep(2);
-      const validation = cards.filter((card) => card.status !== 0).length;
-      if (validation > 3) {
-        setStep(3);
-      }
-    };
+    }
+
+    if (enoughCards && (validation <= 1) && (groupsNamed !== (groups.length - 1))) {
+      setStep(3);
+    }
+
+    if (enoughCards && (validation <= 1) && (groupsNamed === 1)) {
+      setStep(4);
+    }
+    console.log("StepChecking", groupsNamed, groups.length)
     return step;
-  }, [cards, step]);
+  }, [cards, groups, step]);
 
   const changeCardGroup = useCallback((id, status) => {
       let cardToUpdate = cards.find((card) => card.cardId === id);
@@ -220,7 +229,7 @@ const App = () => {
         </section>
       </DndProvider>
       <div className="send">
-        <button className="send-button" onClick={() => handleData()} disabled={step !== 3 || cards.some((card) => card.status === 0)}>Done</button>
+        <button className="send-button" onClick={() => handleData()}>Done</button>
         { error ? <div className="error">{error}</div> : null}
       </div>
       <div className="sent">

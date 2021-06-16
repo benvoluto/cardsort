@@ -25,14 +25,18 @@ export const INSTRUCTIONS = [
   },
   {
     step: 2,
-    text: 'Now, organize them into whatever groups make sense to you, and give each group a name.'
+    text: 'Now, organize them into whatever groups make sense to you.'
   },
   {
     step: 3,
-    text: 'Keep organizing until each card is in a group. When you are finished, you can hit "Done" at the bottom of the page. Thanks!'
+    text: 'Now, name each of your groups.'
   },
   {
     step: 4,
+    text: 'When you are finished, you can hit "Done" at the bottom of the page.'
+  },
+  {
+    step: 5,
     text: ''
   }
 ]
