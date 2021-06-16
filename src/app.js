@@ -1,8 +1,9 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { initializeApp, getApps } from 'firebase/app';
 import { getDatabase, ref, push, set } from 'firebase/database';
-import { DndProvider } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd'
+import { MultiBackend } from 'dnd-multi-backend'
+import { HTML5toTouch } from 'rdndmb-html5-to-touch'
 import generateUUID from './uuid';
 import GroupNameEdit from './group-name-edit';
 import Group from './group';
@@ -173,7 +174,7 @@ const App = () => {
     <main className={`app step-${step}`}>
       <Instructions step={step} instructions={INSTRUCTIONS} />
       <div className="uuid">User id { uuid }</div>
-      <DndProvider backend={HTML5Backend}>
+      <DndProvider backend={MultiBackend} options={HTML5toTouch}>
         <section className="groups">
           {groups.map((group) => {
             return (
