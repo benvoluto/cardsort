@@ -134,7 +134,7 @@ const App = () => {
       let theGroupToUpdate = groups.find((group) => group.id === parseInt(theId));
       let existingGroup = groups.find((group) => group.name === newGroupName);
       if (existingGroup) {
-        alert('You entered that group name already... please use a different name.'); 
+        alert('Please enter a name (or use a different one).'); 
         setNewGroupName('');
         return true;
       }
