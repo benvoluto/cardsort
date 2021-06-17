@@ -176,7 +176,7 @@ const App = () => {
     const newSurveyRef = push(surveyListRef);
     set(newSurveyRef, {cards, groups, uuid})
     .then(() => {
-      setStep(4);
+      setStep(5);
     })
     .catch((error) => {
       setError(error);
