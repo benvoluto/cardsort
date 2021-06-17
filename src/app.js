@@ -58,19 +58,19 @@ const App = () => {
   },[cards, cardData, groups, groupData]);
   
   const stepCheck = useCallback(() => {
-    const validation = cards.filter((card) => card.status === 0).length;
-    const groupsNamed = groups.filter((group) => group.name !== '').length;
+    const cardsGrouped = cards.filter((card) => card.status === 0).length <= 1;
+    const groupsNamed = groups.filter((group) => group.name === '').length <= 1;
     const enoughCards = (cards.length > 10);
 
-    if (enoughCards && (validation > 1) && (groupsNamed !== (groups.length - 1))) {
+    if (enoughCards) {
       setStep(2);
     }
 
-    if (enoughCards && (validation <= 1) && (groupsNamed !== (groups.length - 1))) {
+    if (enoughCards && cardsGrouped) {
       setStep(3);
     }
 
-    if (enoughCards && (validation <= 1) && (groupsNamed === 1)) {
+    if (enoughCards && cardsGrouped && groupsNamed) {
       setStep(4);
     }
     return step;
