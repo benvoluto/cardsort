@@ -341,11 +341,21 @@ $mobile: 768px
   .sent-message
     margin: auto
 
+.step-0
+  .group,
+  .send,
+  .add-group-button,
+  .sent,
+  .group.ungrouped,
+  .instructions
+    display: none
+
 .step-1
   .group,
   .send,
   .add-group-button,
-  .sent
+  .sent,
+  .modal-container
     display: none
   .group.ungrouped
     display: flex
@@ -416,4 +426,31 @@ $mobile: 768px
   background-color: #bdbdbd
   color: #828282
   cursor: default
+
+
+.modal-container
+  width: 100vw
+  height: 100vh
+  position: absolute
+  top: 0px
+
+  .send-button
+    height: 2em
+    font-size: .75em
+    width: fit-content
+
+  .move-on
+    padding-top: .5em  
+
+  .instructions
+    display: block
+
+  .modal
+    width: 100%
+    height: calc( 100vh - 200px )
+    padding-top: 50px
+
+
+
+
 

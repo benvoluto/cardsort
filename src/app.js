@@ -35,7 +35,7 @@ const uuid = pid || generateUUID();
 const touch = isTouch() ? 'touch-capable' : '';
 
 const App = () => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [newCard, setNewCard] = useState('');
   const [newGroupName, setNewGroupName] = useState('');
   const [editGroupId, setEditGroupId] = useState(null);
@@ -183,8 +183,21 @@ const App = () => {
     });
   }
 
+  const startCardSort = () => {
+    setStep(1);
+  }
+
   return (
     <main className={`app step-${step} ${touch}`}>
+      <div className="modal-container">
+        <div className="instructions">Please complete all four pages of the survey below. When you have completed the survey, please press the green button below to move on.
+           <div className="move-on">
+            <button className="send-button" onClick={() => startCardSort()}>Go to next step</button>
+            </div>
+        </div>
+        <iframe className="modal" src={`https://www.surveymonkey.com/r/MVMPJ9H?UUID=${uuid}`} width="1000" height="800" frameBorder="0"></iframe>
+      </div>
+      
       <Instructions step={step} instructions={INSTRUCTIONS} />
       <div className="uuid">User id { uuid }</div>
       <DndProvider backend={MultiBackend} options={HTML5toTouch}>
