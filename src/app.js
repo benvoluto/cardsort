@@ -190,7 +190,7 @@ const App = () => {
   return (
     <main className={`app step-${step} ${touch}`}>
       <div className="modal-container">
-        <div className="instructions">Please complete all four pages of the survey below. When you have completed the survey, please press the green button below to move on.
+        <div className="instructions">Please complete all pages of the survey below. When you have completed the survey, please press the green button below to move on.
            <div className="move-on">
             <button className="send-button" onClick={() => startCardSort()}>Go to next step</button>
             </div>
