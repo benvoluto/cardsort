@@ -60,13 +60,13 @@ const App = () => {
   const stepCheck = useCallback(() => {
     const cardsGrouped = cards.filter((card) => card.status === 0).length <= 1;
     const groupsNamed = groups.filter((group) => group.name === '').length <= 2;
-    const enoughCards = (cards.length > 10);
+    const enoughCards = (cards.length > 8);
 
     if (enoughCards) {
       setStep(2);
     }
 
-    if (enoughCards && cardsGrouped) {
+    if (enoughCards && groupsNamed) {
       setStep(3);
     }
 

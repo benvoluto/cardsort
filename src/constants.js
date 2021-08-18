@@ -21,15 +21,15 @@ export const INSTRUCTIONS = [
   },
   {
     step: 1,
-    text: 'Please enter 12 or more shows and movies that you have seen in the past year, as many as you can remember.'
+    text: 'Enter 10 of your must-haves or things on your wishlist that you need for watching TV (shows, features, etc.).'
   },
   {
     step: 2,
-    text: 'Now, organize them into whatever groups make sense to you.'
+    text: 'Now, name your groups based on each of the services you`re considering.'
   },
   {
     step: 3,
-    text: 'Now, name each of your groups.'
+    text: 'Now, put each card into the service that has it or does it best.'
   },
   {
     step: 4,
