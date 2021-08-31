@@ -103,13 +103,13 @@ const App = () => {
 
   const handleNewCardSubmit = (e) => {
     e.preventDefault();
-    let existingCard = cards.find((card) => card.title === newCard);
-    if (existingCard) {
-      alert('You entered that card already'); 
-      setNewCard('');
-      return true;
-    }
-    if (newCard && !existingCard) {
+    // let existingCard = cards.find((card) => card.title === newCard);
+    // if (existingCard) {
+    //   alert('You entered that card already'); 
+    //   setNewCard('');
+    //   return true;
+    // }
+    // if (newCard && !existingCard) {
       const theCard = {
         cardId: newId,
         title: newCard,
@@ -118,7 +118,7 @@ const App = () => {
       setCardStatus((cards) => [...cards, theCard]);
       setNewCard('');
       setNewId(newId + 1);
-    }
+    //}
     stepCheck();
   };
 
